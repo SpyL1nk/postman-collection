@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "b798125b-27d9-4a33-9535-0eac04cd8096",
+		"name": "FortiManager 7.0 - Flatui - Firmware Template",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6212557"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable('CURRENT_SESSION',pm.cookies.get('CURRENT_SESSION'));",
+							"postman.setEnvironmentVariable('HTTP_CSRF_TOKEN',pm.cookies.get('HTTP_CSRF_TOKEN'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"/gui/userauth\",\r\n    \"method\": \"login\",\r\n    \"params\": {\r\n        \"username\": \"{{username}}\",\r\n        \"secretkey\": \"{{password}}\",\r\n        \"logintype\": 0\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{ip}}/cgi-bin/module/flatui_auth",
+					"protocol": "https",
+					"host": [
+						"{{ip}}"
+					],
+					"path": [
+						"cgi-bin",
+						"module",
+						"flatui_auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "XSRF Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable('XSRF-TOKEN',pm.cookies.get('XSRF-TOKEN'));",
+							"postman.setEnvironmentVariable('csrftoken',pm.cookies.get('csrftoken'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{ip}}/p/app/",
+					"protocol": "https",
+					"host": [
+						"{{ip}}"
+					],
+					"path": [
+						"p",
+						"app",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Firmware Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json;charset=UTF-8"
+					},
+					{
+						"key": "X-CSRFToken",
+						"value": "{{HTTP_CSRF_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF-TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{XSRF-TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"method\": \"get\",\n    \"params\": [\n        {\n            \"url\": \"pm/fwmprof/adom/root\",\n            \"sorting\": [\n                {\n                    \"name\": 1\n                }\n            ]\n        }\n    ],\n    \"id\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{ip}}/cgi-bin/module/forward",
+					"protocol": "https",
+					"host": [
+						"{{ip}}"
+					],
+					"path": [
+						"cgi-bin",
+						"module",
+						"forward"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Firmware Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json;charset=UTF-8"
+					},
+					{
+						"key": "X-CSRFToken",
+						"value": "{{HTTP_CSRF_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF-TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{XSRF-TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"method\": \"add\",\n    \"params\": [\n        {\n            \"data\": {\n                \"name\": \"PostManTest\",\n                \"type\": \"fwmprof\",\n                \"fwmprof setting\": {\n                    \"schedule-day\": 0,\n                    \"image-source\": 0,\n                    \"schedule-end-time\": null,\n                    \"schedule-start-time\": null,\n                    \"schedule-type\": 0,\n                    \"enforced version\": null\n                }\n            },\n            \"url\": \"pm/fwmprof/adom/root\"\n        }\n    ],\n    \"id\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{ip}}/cgi-bin/module/forward",
+					"protocol": "https",
+					"host": [
+						"{{ip}}"
+					],
+					"path": [
+						"cgi-bin",
+						"module",
+						"forward"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Firmware Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json;charset=UTF-8"
+					},
+					{
+						"key": "X-CSRFToken",
+						"value": "{{HTTP_CSRF_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF-TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{XSRF-TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"method\": \"update\",\n    \"params\": [\n        {\n            \"data\": {\n                \"fwmprof setting\": {\n                    \"schedule-day\": 0,\n                    \"description\": \"I'm a firmware template\",\n                    \"image-source\": 1,\n                    \"schedule-end-time\": \"2022-07-11 00:00\",\n                    \"schedule-start-time\": \"2022-07-11 00:00\",\n                    \"schedule-type\": 5,\n                    \"enforced version\": [\n                        {\n                            \"flags\": 0,\n                            \"platform\": \"FortiGate-60F\",\n                            \"product\": 1,\n                            \"upgrade-path\": 1,\n                            \"version\": \"7.0.6-b0366\"\n                        },\n                        {\n                            \"flags\": 0,\n                            \"platform\": \"FortiGate-40F\",\n                            \"product\": 1,\n                            \"upgrade-path\": 1,\n                            \"version\": \"7.0.6-b0366\"\n                        }\n                    ]\n                },\n                \"name\": \"HelloWorld\",\n                \"oid\": 17109,\n                \"type\": \"fwmprof\"\n            },\n            \"url\": \"pm/fwmprof/adom/root/HelloWorld\"\n        }\n    ],\n    \"id\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{ip}}/cgi-bin/module/forward",
+					"protocol": "https",
+					"host": [
+						"{{ip}}"
+					],
+					"path": [
+						"cgi-bin",
+						"module",
+						"forward"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable('session',data['session']);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"session\" : \"{{session}}\",\r\n  \"id\" : 1,\r\n  \"method\" : \"exec\",\r\n  \"params\" : [\r\n    {\r\n      \"url\" : \"/sys/logout\"\r\n    }\r\n  ]\r\n}"
+				},
+				"url": {
+					"raw": "https://{{ip}}/jsonrpc",
+					"protocol": "https",
+					"host": [
+						"{{ip}}"
+					],
+					"path": [
+						"jsonrpc"
+					]
+				},
+				"description": "Log out a session."
+			},
+			"response": []
+		}
+	]
+}
